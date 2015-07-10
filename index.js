@@ -4,6 +4,7 @@
 {
 
 	require('./lib/es6');
+	require('./lib/collection');
 	var
 		crypto = require('crypto')
 
