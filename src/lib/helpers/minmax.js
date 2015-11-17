@@ -1,5 +1,7 @@
+'use strict';
 
-var helper =
+
+const helper =
 {
 	defaultmin: function(p, v)
 	{
@@ -27,21 +29,19 @@ var helper =
 	},
 	minLoop: function (data, defaultVal)
   {
-		var len = data.length, min = defaultVal;
+		let len = data.length, min = defaultVal;
     while (len--)
     {
-      if (data[len] < min)
-        min = data[len];
+      if (data[len] < min) min = data[len];
     }
     return min;
   },
   maxLoop: function (data, defaultVal)
   {
-    var len = data.length, max = defaultVal;
+    let len = data.length, max = defaultVal;
     while (len--)
     {
-      if (data[len] > max)
-        max = data[len];
+      if (data[len] > max) max = data[len];
     }
     return max;
   },
@@ -49,36 +49,32 @@ var helper =
 	{
 		if (!_fn)
 		{
-			var type = typeof(data[0]);
-			if (type === 'string' || type === 'number')
-				return this[type + action](data);
+			let type = typeof(data[0]);
+			if (type === 'string' || type === 'number') return this[type + action](data);
 		}
 		return data.reduce(_fn || this['default'+ action]);
 	},
 	iterator: function(action, data, _selector, _comparer)
 	{
-		var result, val;
-		if (_selector)
+		let result, val;
+
+		switch(typeof(_selector))
 		{
-			if (typeof(_selector) === 'string')
-				(function(feild)
-				{
-					_selector = function(item)
-					{
-						return item[feild]
-					};
-				}(_selector));
-			result = data.map(_selector);
+			case 'string':
+				let field = _selector;
+				_selector = e => e[field];
+				result = data.map(_selector);
+				break;
+			case 'function':
+				result = data.map(_selector);
+				break;
+			default:
+				result = data;
 		}
-		else
-			result = data;
 
 		val = this.calc(action, result, _comparer);
 
-		return !_selector ? val : data.find(function(item)
-		{
-			return _selector(item) === val;
-		});
+		return !_selector ? val : data.find(e => _selector(e) === val);
 	}
 };
 

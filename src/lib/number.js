@@ -1,21 +1,21 @@
 'use strict';
 
 
-var radixAlgorithm =
+const radixAlgorithm =
 {
 	chars: '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ',
 	charsMap: null,
 	init: function()
 	{
 		radixAlgorithm.charsMap = {};
-		for (var i = 0; i < radixAlgorithm.chars.length; i++)
+		for (let i = 0; i < radixAlgorithm.chars.length; i++)
 			radixAlgorithm.charsMap[radixAlgorithm.chars[i]] = i;
 	},
 	to: function(number, radix)
 	{
 		if (!radixAlgorithm.charsMap) radixAlgorithm.init();
 
-		var qutient = +number, result = [], mod;
+		let qutient = +number, result = [], mod;
 	 	do
 	 	{
 	    mod = qutient % radix;
@@ -30,7 +30,7 @@ var radixAlgorithm =
 	{
 		if (!radixAlgorithm.charsMap) radixAlgorithm.init();
 
-		var code = String(numString), count = code.length, i = 0, result = 0;
+		let code = String(numString), count = code.length, i = 0, result = 0;
 		while (i < count)
 		  result += Math.pow(radix, i++) * (radixAlgorithm.charsMap[code.charAt(count - i)] || 0);
 		return result;
@@ -39,7 +39,7 @@ var radixAlgorithm =
 
 
 
-var number =
+const number =
 {
 	toString: function(number, radix)
 	{

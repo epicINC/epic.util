@@ -1,6 +1,6 @@
 {
   "name": "epic.util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "epic util",
   "homepage": "http://github.com/slightboy",
 	"keywords": ["epic"],
@@ -12,11 +12,5 @@
     "name": "slightboy",
     "email": "node@slightboy.net"
   },
-  "contributors": [
-    {
-      "name": "slightboy",
-      "email": "node@slightboy.net"
-    }
-  ],
   "repository": "git://github.com/epicINC/epic.util"
 }

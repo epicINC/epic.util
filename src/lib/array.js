@@ -1,22 +1,13 @@
 'use strict';
 
-var
+const
 	helper = require('./helpers');
 
-var array = 
+const array = 
 {
 	is: function(val)
 	{
 		return Array.isArray(val);
-	},
-	select: function(arr, fn)
-	{
-		var result = [];
-		arr.map(function(item)
-		{
-			result.push(fn(item));
-		});
-		return result;
 	},
 	join: function(val)
 	{
@@ -25,19 +16,9 @@ var array =
 	clone: function(val)
 	{
 		if (!Array.isArray(val)) return val;
+		if (!val.some(e => Array.isArray(e))) return val.slice();
 
-		if (!val.some(function(item)
-		{
-			return Array.isArray(item);
-		}))
-			return val.slice();
-
-		var result = [];
-		val.map(function(item)
-		{
-			result.push(array.clone(item));
-		});
-		return result;
+		return val.map(e => this.clone(item));
 	},
 	min: function(data, _selector, _comparer)
 	{
@@ -53,23 +34,18 @@ var array =
 		if (!arr1 || arr1.length === 0) return arr2;
 
 		// fast set
-		return arr1.filter(function(item)
-		{
-			return arr2.indexOf(item) === -1;
-		});
+		return arr1.filter(e => arr2.indexOf(e) === -1);
 	},
 	distinct: function(val)
 	{
-		if (val.length < 200 || !Set)
-			return array.distinctBinary(val);
-
+		if (val.length < 200 || !Set) return array.distinctBinary(val);
 		return array.distinctSet(val);
 	},
 
 	distinctSet: function (val)
 	{
-		var set = new Set(), result = [];
-		for (var i = 0, count = val.length, item; i < val.length; i++)
+		let set = new Set(), result = [];
+		for (let i = 0, count = val.length, item; i < val.length; i++)
 		{
 			item = val[i];
 			if (!set.has(item))
@@ -83,11 +59,11 @@ var array =
 
 	distinctBinary: function (arr)
 	{
-		var
+		let
 			set = [arr[0]],
 			bst = {v: arr[0], l: null, r: null};
 
-		for (var i = 1, value, uv, root, len = arr.length; i < len; i++)
+		for (let i = 1, value, uv, root, len = arr.length; i < len; i++)
 		{
 		  value = arr[i];
 			root = bst;

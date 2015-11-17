@@ -1,18 +1,17 @@
-
+'use strict';
 
 
 (function(Global)
 {
 	if (Global.Queue) return;
 
-	var
-		symbol = Symbol();
+	const
+		symbol = Symbol('Queue'),
 		slice = Array.prototype.slice;
 
-	var Queue = Global.Queue = function(data)
+	let Queue = Global.Queue = function(data)
 	{
-	  if (!(this instanceof Queue))
-	    return new Queue(data);
+	  if (!new.target) return new Queue(data);
 
 	  if (data)
 	  	this[symbol] = Array.isArray(data) ? slice.call(data) : new Array(data);

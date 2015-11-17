@@ -5,10 +5,13 @@
 
 	require('./lib/es6');
 	require('./lib/collection');
-	var
-		crypto = require('crypto')
 
-	var utility = 
+	const
+		crypto = require('crypto'),
+		Generator = (function*(){}).constructor;
+
+
+	const utility = 
 	{
 		array: require('./lib/array'),
 		number: require('./lib/number'),
@@ -17,6 +20,10 @@
 		isFn: function(val)
 		{
 		  return typeof(val) === 'function';
+		},
+		isGenFn: function(fn)
+		{
+			return fn instanceof Generator;
 		},
 		isObj: function(val)
 		{

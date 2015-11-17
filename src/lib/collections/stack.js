@@ -1,16 +1,16 @@
+'use strict';
 
 (function(Global)
 {
 	if (Global.Stack) return;
 
-	var
-		symbol = Symbol();
+	const
+		symbol = Symbol('Stack'),
 		slice = Array.prototype.slice;
 
-	var Stack = Global.Stack = function(data)
+	let Stack = Global.Stack = function(data)
 	{
-	  if (!(this instanceof Stack))
-	    return new Stack(data);
+	  if (!new.target) return new Stack(data);
 
 	  if (data)
 	  	this[symbol] = Array.isArray(data) ? slice.call(data) : new Array(data);
