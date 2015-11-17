@@ -36,7 +36,6 @@ describe('object Extension', () =>
 
     it('clone depp', () =>
     {
-
         let data = {a:{b:{c:1}}};
         let result = ext.cloneDeep(data);
         data.should.eql(result);

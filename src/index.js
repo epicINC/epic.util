@@ -21,7 +21,7 @@
 		{
 		  return typeof(val) === 'function';
 		},
-		isGenFn: function(fn)
+		isGen: function(fn)
 		{
 			return fn instanceof Generator;
 		},

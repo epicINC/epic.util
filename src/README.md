@@ -8,6 +8,39 @@
 $ npm install epic.util
 ```
 
+## Uasage
+
+array:
+
+	is
+	join
+	clone
+	min
+	max
+	minus
+	distinct
+	distinctSet
+	distinctBinary
+
+number:
+
+	toString
+	parse
+
+object:
+
+	typeof
+	with
+	clone
+	cloneDeep
+	mix
+
+collections:
+
+	queue
+	stack
+
+
 ## Authors
 
- - S <git@slightboy.net>
+ - S <node@slightboy.net>
