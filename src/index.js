@@ -50,6 +50,7 @@
 	utility.clone = utility.object.clone;
 	utility.mix = utility.object.mix;
 	utility.with = utility.object.with;
+	utility.typeof = utility.object.typeof;
 
 
 	if(module && module.exports)
