@@ -3,6 +3,34 @@
 const
 	helper = require('./helpers');
 
+
+if (!Array.prototype.any)
+	Array.prototype.any = Array.prototype.some;
+
+
+if (!Array.prototype.lastAny)
+{
+	Array.prototype.lastAny = function(callback, _thisArg)
+	{
+		if (this == null)
+      throw new TypeError('Array.prototype.lastAny called on null or undefined');
+
+    if (typeof(callback) !== 'function')
+    	throw new TypeError();
+
+    let t = Object(this);
+    let len = t.length >>> 0;
+    _thisArg = _thisArg || void 0;
+    for (let i = len; i >= 0; i--)
+    {
+    	if (i in t && callback.call(_thisArg, t[i], i, t)) return true;
+    }
+
+    return false;
+	}
+}
+
+
 const array = 
 {
 	is: function(val)
@@ -19,6 +47,10 @@ const array =
 		if (!val.some(e => Array.isArray(e))) return val.slice();
 
 		return val.map(e => this.clone(item));
+	},
+	remove: function(val, index)
+	{
+		val.splice(index, 1);
 	},
 	min: function(data, _selector, _comparer)
 	{

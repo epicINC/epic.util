@@ -44,12 +44,16 @@
 
 		  return crypto.createHash('md5').update(data).digest('hex'); // 'hex', 'binary' or 'base64'
 		},
-		noop: function(){}
+		uuid: () => crypto.randomBytes(16).toString('hex'),
+		noop: () => {}
 	};
 
 	utility.clone = utility.object.clone;
 	utility.mix = utility.object.mix;
+
 	utility.with = utility.object.with;
+	utility.withEach = utility.object.withEach;
+
 	utility.typeof = utility.object.typeof;
 
 

@@ -36,7 +36,7 @@ const objectExtension =
 	 * typeof ex
 	 * result: 'undefined', 'null', 'object', 'number', 'string', 'array', 'function', 'symbol', 'date', 'regexp', 'error'
 	 *
-	 * @api public
+	 * @access public
 	 * @param {Object} val
 	 * @return {string}
 	 */
@@ -57,7 +57,7 @@ const objectExtension =
 	 * 1 with(val, fn) return val
 	 * 2 with(val)(fn) return fn(val)
 	 *
-	 * @api public
+	 * @access public
 	 * @param {Object} val
 	 * @param {Function} val
 	 * @return {Object|Function}
@@ -65,14 +65,40 @@ const objectExtension =
 	with: function(val, _fn)
 	{
 		if (!_fn) return e => e(val);
-		_fn(val)
+		_fn(val);
+		return val;
+	},
+
+	/**
+	 * with & with result
+	 * 1 with(val, fn) return val
+	 * 2 with(val)(fn) return fn(val)
+	 *
+	 * @access public
+	 * @param {Object} val
+	 * @param {Function} val
+	 * @return {Object|Function}
+	 */
+
+	withEach: function(val, _fn)
+	{
+		if (!_fn) return function(cb)
+		{
+			if (!cb) return val;
+			return Array.isArray(val) ? val.map(cb) : cb(val);
+		};
+
+		if (Array.isArray(val))
+			val.forEach(e => _fn(e))
+		else
+			_fn(val);
 		return val;
 	},
 
 	/**
 	 * clone
 	 *
-	 * @api public
+	 * @access public
 	 * @param {Object} val
 	 * @param {boolean} deep
 	 * @return {Object}
@@ -97,7 +123,7 @@ const objectExtension =
 	/**
 	 * cloneDeep
 	 *
-	 * @api public
+	 * @access public
 	 * @param {Object} val
 	 * @return {Object}
 	 */
@@ -122,7 +148,7 @@ const objectExtension =
 	/**
 	 * mix from src to dest
 	 *
-	 * @api public
+	 * @access public
 	 * @param {Object} dest
 	 * @param {Object} src
 	 * @param {boolean} override
