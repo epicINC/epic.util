@@ -44,7 +44,7 @@
 
 		  return crypto.createHash('md5').update(data).digest('hex'); // 'hex', 'binary' or 'base64'
 		},
-		uuid: () => crypto.randomBytes(16).toString('hex'),
+		uuid: len => crypto.randomBytes(len / 2 || 16).toString('hex'),
 		noop: () => {}
 	};
 
@@ -52,7 +52,7 @@
 	utility.mix = utility.object.mix;
 
 	utility.with = utility.object.with;
-	utility.withEach = utility.object.withEach;
+	utility.each = utility.object.each;
 
 	utility.typeof = utility.object.typeof;
 

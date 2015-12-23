@@ -80,16 +80,16 @@ const objectExtension =
 	 * @return {Object|Function}
 	 */
 
-	withEach: function(val, _fn)
+	each: function(val, _fn)
 	{
-		if (!_fn) return function(cb)
+		if (!_fn) return e =>
 		{
-			if (!cb) return val;
-			return Array.isArray(val) ? val.map(cb) : cb(val);
+			if (!e) return val;
+			return Array.isArray(val) ? val.map(e) : e(val);
 		};
 
 		if (Array.isArray(val))
-			val.forEach(e => _fn(e))
+			val.forEach(_fn);
 		else
 			_fn(val);
 		return val;
