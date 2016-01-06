@@ -10,6 +10,15 @@ $ npm install epic.util
 
 ## Uasage
 
+	let epic = request('epic.util');
+
+	epic.array	// array methods
+	epic.number	// number methods
+	epic.object // object methods
+	epic.promise	// promise methods
+	
+
+
 array:
 
 	is

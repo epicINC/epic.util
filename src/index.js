@@ -17,27 +17,12 @@
 		number: require('./lib/number'),
 		object: require('./lib/object'),
 		promise: require('./lib/promise'),
-		isFn: function(val)
-		{
-		  return typeof(val) === 'function';
-		},
-		isGen: function(fn)
-		{
-			return fn instanceof Generator;
-		},
-		isObj: function(val)
-		{
-			return typeof(val) === 'object'
-		},
-		isBool: function(val)
-		{
-			return typeof(val) === 'boolean';
-		},
-		isArray: function(val)
-		{
-			return this.array.is(val);
-		},
-		hash: function(data)
+		isFunction: fn => typeof(val) === 'function',
+		isGenerator: fn => fn.constructor.name === 'GeneratorFunction' || fn instanceof Generator,
+		isObject: data => typeof(data) === 'object',
+		isBool: data => typeof(data) === 'boolean',
+		isArray: Array.isArray,
+		hash: data =>
 		{
 			if (typeof(data) === 'string')
 				data = new Buffer(data);
@@ -56,6 +41,9 @@
 
 	utility.typeof = utility.object.typeof;
 
+	utility.isFn = utility.isFunction;
+	utility.isGen = utility.isGenerator;
+	utility.isObj = utility.isObject;
 
 	if(module && module.exports)
 		module.exports = utility;
