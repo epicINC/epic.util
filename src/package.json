@@ -3,7 +3,9 @@
   "version": "1.0.2",
   "description": "epic util",
   "homepage": "http://github.com/slightboy",
-	"keywords": ["epic"],
+  "keywords": [
+    "epic"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "mocha test"
@@ -12,5 +14,8 @@
     "name": "slightboy",
     "email": "node@slightboy.net"
   },
-  "repository": "git://github.com/epicINC/epic.util"
+  "repository": "git://github.com/epicINC/epic.util",
+  "dependencies": {
+    "co": "^4.6.0"
+  }
 }

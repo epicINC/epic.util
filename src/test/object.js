@@ -25,6 +25,12 @@ describe('object Extension', () =>
         ext.with(data)(e => !e).should.eql(false);
     });
 
+    it('each with Generator', () => 
+    {
+        let data = [1, 2, 3];
+        ext.each();
+    });
+
     it('clone', () =>
     {
         let data = {a:[{b:1}]};

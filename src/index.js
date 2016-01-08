@@ -7,8 +7,7 @@
 	require('./lib/collection');
 
 	const
-		crypto = require('crypto'),
-		Generator = (function*(){}).constructor;
+		crypto = require('crypto');
 
 
 	const utility = 
@@ -17,10 +16,7 @@
 		number: require('./lib/number'),
 		object: require('./lib/object'),
 		promise: require('./lib/promise'),
-		isFunction: fn => typeof(val) === 'function',
-		isGenerator: fn => fn.constructor.name === 'GeneratorFunction' || fn instanceof Generator,
-		isObject: data => typeof(data) === 'object',
-		isBool: data => typeof(data) === 'boolean',
+
 		isArray: Array.isArray,
 		hash: data =>
 		{
@@ -33,6 +29,7 @@
 		noop: () => {}
 	};
 
+	utility.copy = utility.object.copy;
 	utility.clone = utility.object.clone;
 	utility.mix = utility.object.mix;
 
@@ -40,10 +37,10 @@
 	utility.each = utility.object.each;
 
 	utility.typeof = utility.object.typeof;
-
-	utility.isFn = utility.isFunction;
-	utility.isGen = utility.isGenerator;
-	utility.isObj = utility.isObject;
+	utility.isFn = utility.object.isFunction;
+	utility.isGen = utility.object.isGenerator;
+	utility.isObj = utility.object.isObject;
+	utility.isBool = utility.object.isBool;
 
 	if(module && module.exports)
 		module.exports = utility;

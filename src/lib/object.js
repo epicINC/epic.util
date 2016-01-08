@@ -1,8 +1,11 @@
 'use strict';
 
 const
+	Generator = (function*(){}).constructor,
 	objecToString = Object.prototype.toString,
 	cache = new Map();
+
+const co = require('co');
 
 
 /*
@@ -26,7 +29,14 @@ cache.set('[object Error]', 'error');
 cache.set('[object RegExp]', 'regexp');
 cache.set('[object Symbol]', 'symbol');
 */
+const eachGenerator = function*(val, fn)
+{
+	if (!Array.isArray(val)) return yield fn(val);
 
+	for (var i = 0; i < val.length; i++)
+		yield* fn(val[i]);
+
+}
 
 
 const objectExtension = 
@@ -51,6 +61,10 @@ const objectExtension =
 			: cache.get(key = objecToString.call(val))
 			|| this.with(key.slice(8, -1).toLowerCase(), e => cache.set(key, e) && false);
 	},
+	isFunction: fn => typeof(val) === 'function',
+	isGenerator: fn => fn.constructor.name === 'GeneratorFunction' || fn instanceof Generator,
+	isObject: data => typeof(data) === 'object',
+	isBool: data => typeof(data) === 'boolean',
 
 	/**
 	 * with & with result
@@ -82,11 +96,35 @@ const objectExtension =
 
 	each: function(val, _fn)
 	{
-		if (!_fn) return e =>
+		if (!_fn) return fn =>
 		{
-			if (!e) return val;
-			return Array.isArray(val) ? val.map(e) : e(val);
+			if (objectExtension.isGenerator(fn))
+			{
+				return function(done)
+				{
+					co(function*()
+					{
+						done(yield eachGenerator(val, _fn));
+					})
+					.catch(e => console.log(e.stack));
+				};
+			}
+			return Array.isArray(val) ? val.map(fn) : fn(val);
 		};
+
+		if (objectExtension.isGenerator(_fn))
+		{
+			return function(done)
+			{
+				co(function*()
+				{
+					yield eachGenerator(val, _fn);
+					done(val);
+				})
+				.catch(e => console.log(e.stack));
+			};
+		}
+
 
 		if (Array.isArray(val))
 			val.forEach(_fn);
@@ -95,28 +133,43 @@ const objectExtension =
 		return val;
 	},
 
+
+	copy: function(target, dest, _override)
+	{
+		return this.mix(dest, target, _override);
+	},
+
 	/**
 	 * clone
 	 *
 	 * @access public
 	 * @param {Object} val
-	 * @param {boolean} deep
+	 * @param {string|string[]} _exclude
+	 * @param {boolean} _deep
 	 * @return {Object}
 	 */
-	clone: function(val, deep)
+	clone: function(data, _exclude, _deep)
 	{
-		if (deep === true) return this.cloneDeep(val);
+		if (_exclude === true || _deep === true)
+			 return this.cloneDeep(data, _exclude);
 
-		switch(this.typeof(val))
+		if (_exclude && this.typeof(_exclude) === 'string')
+			_exclude = [_exclude];
+
+		switch(this.typeof(data))
 		{
 			case 'object':
 				let result = {};
-				Object.keys(val).forEach(key => result[key] = val[key]);
+				Object.keys(data).forEach(key =>
+				{
+					if (_exclude && _exclude.indexOf(key) !== -1) return;
+					result[key] = data[key];
+				});
 				return result;	
 			case 'array':
-				return val.slice();
+				return data.slice();
 			default:
-				return val;
+				return data;
 		}
 	},
 
@@ -127,19 +180,19 @@ const objectExtension =
 	 * @param {Object} val
 	 * @return {Object}
 	 */
-	cloneDeep: function(val)
+	cloneDeep: function(data)
 	{
 
-		switch(this.typeof(val))
+		switch(this.typeof(data))
 		{
 			case 'object':
 				let result = {};
-				Object.keys(val).forEach(key => result[key] = this.cloneDeep(val[key]));
+				Object.keys(data).forEach(key => result[key] = this.cloneDeep(data[key]));
 				return result;	
 			case 'array':
-				return val.map(e => this.cloneDeep(e));
+				return data.map(e => this.cloneDeep(e));
 			default:
-				return val;
+				return data;
 		}
 
 		//return JSON.parse(JSON.stringify(val));
@@ -151,31 +204,31 @@ const objectExtension =
 	 * @access public
 	 * @param {Object} dest
 	 * @param {Object} src
-	 * @param {boolean} override
+	 * @param {boolean} _override
 	 * @return {Object}
 	 */
-	mix: function(dest, src, override)
+	mix: function(dest, src, _override)
 	{
 		if (arguments.length === 1) return this.clone(dest);
 
 		if (dest === null || dest === undefined) return src;
 		if (src === null || src === undefined) return dest;
-		if (override === undefined) override = true;
+		if (_override === undefined) _override = true;
 
 		Object.keys(src).forEach(key =>
 		{
 			switch(this.typeof(src[key]))
 			{
 				case 'object':
-					if (override || !dest.hasOwnProperty(key)) dest[key] = {};
-					return this.mix(dest[key], src[key], override);
+					if (_override || !dest.hasOwnProperty(key)) dest[key] = {};
+					return this.mix(dest[key], src[key], _override);
 					break;
 				case 'array':
-					if (override || !dest.hasOwnProperty(key)) dest[key] = [];
-					return this.mix(dest[key], src[key], override);
+					if (_override || !dest.hasOwnProperty(key)) dest[key] = [];
+					return this.mix(dest[key], src[key], _override);
 					break;
 				default:
-					if (override || !dest.hasOwnProperty(key)) dest[key] = src[key];
+					if (_override || !dest.hasOwnProperty(key)) dest[key] = src[key];
 					break;
 			}
 		});
