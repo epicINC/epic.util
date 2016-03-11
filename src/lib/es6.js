@@ -176,3 +176,16 @@ if (!Array.prototype.find) {
     return undefined;
   };
 }
+
+
+if (!Object.values)
+{
+  Object.values = function(target)
+  {
+    if (!target) return;
+    let keys = Object.keys(target);
+    if (!keys || keys.length === 0) return;
+
+    return keys.map(key => target[key]); 
+  }
+}

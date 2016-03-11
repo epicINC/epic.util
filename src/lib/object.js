@@ -134,7 +134,7 @@ const objectExtension =
 	},
 
 
-	copy: function(target, dest, _override)
+	copy: function(target, dest, _exclude, _override)
 	{
 		return this.mix(dest, target, _override);
 	},
@@ -207,12 +207,19 @@ const objectExtension =
 	 * @param {boolean} _override
 	 * @return {Object}
 	 */
-	mix: function(dest, src, _override)
+	mix: function(dest, src, _exclude, _override)
 	{
 		if (arguments.length === 1) return this.clone(dest);
 
 		if (dest === null || dest === undefined) return src;
 		if (src === null || src === undefined) return dest;
+		if (arguments.length === 3 && typeof(_exclude) === 'boolean')
+		{
+			_override = _exclude;
+			_exclude = undefined;
+
+		}
+
 		if (_override === undefined) _override = true;
 
 		Object.keys(src).forEach(key =>
