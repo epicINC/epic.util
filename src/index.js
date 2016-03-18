@@ -14,6 +14,7 @@
 	{
 		array: require('./lib/array'),
 		number: require('./lib/number'),
+		string: require('./lib/string'),
 		object: require('./lib/object'),
 		promise: require('./lib/promise'),
 
