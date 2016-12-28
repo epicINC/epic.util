@@ -1,0 +1,22 @@
+{
+  "name": "tst",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack --watch",
+    "dev": "node --harmony ./dist/bundle",
+    "ts": "tsc --watch -m system",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "S",
+  "license": "ISC",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.0.0-beta.17",
+    "source-map-loader": "^0.1.5",
+    "tslib": "^1.4.0",
+    "typescript": "*",
+    "webpack": "*"
+  },
+  "dependencies": {}
+}

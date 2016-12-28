@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "es2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "removeComments": true,
+        "noImplicitAny": true,
+        "declaration": true,
+        "importHelpers": true,
+        "alwaysStrict": true
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
