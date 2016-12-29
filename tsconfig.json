@@ -9,7 +9,10 @@
         "noImplicitAny": true,
         "declaration": true,
         "importHelpers": true,
-        "alwaysStrict": true
+        "alwaysStrict": true,
+        "pretty": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
     },
     "include": [
         "./src/**/*"
