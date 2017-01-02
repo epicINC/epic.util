@@ -6,11 +6,14 @@
         "moduleResolution": "node",
         "lib": ["es2017"],
         "sourceMap": true,
-        
-         "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "removeComments": true,
+        "preserveConstEnums": true,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "suppressImplicitAnyIndexErrors": true,
         "declaration": true,
         "importHelpers": true,
         "alwaysStrict": true,
@@ -19,6 +22,10 @@
         //"noUnusedLocals": true,
         "skipDefaultLibCheck": true,
         "skipLibCheck": true
+    },
+    "formatCodeOptions": {
+        "indentSize": 2,
+        "tabSize": 2
     },
     "include": [
         "./src/**/*"
