@@ -11,10 +11,6 @@ declare global {
         [P in keyof T]: { get(): T[P]; set(v: T[P]): void };
     };
     
-    type Dictionary = {
-        [key: number]: any;
-        [key: string]: any;
-    };
 
     type Action0 = () => void;
     type Action1<T> = (arg: T) => void;

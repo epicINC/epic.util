@@ -1,57 +1,69 @@
 declare global {
 
-    interface IDictionary {
-        [index: number] : any;
-        [key: string] : any;
+    interface IDictionary<T> extends IList<T> {
+        get (key: PropertyKey) : T;
+        set (key: PropertyKey, value: T) : T;
+
         keys: string[];
-        values: any[];
+        values: T[];
         entries: [string, any][];
-        count: number;
+        toArray() : [string, any][];
     }
+
+    interface IDictionaryConstructor {
+        new () : IDictionary<any>;
+        new <T>(data?: {}) : IDictionary<T>;
+    }
+
+    type test = {
+        new () : IDictionary<any>,
+        new <T>(data?: {}) : IDictionary<T>;
+    };
 
 }
 
-export class Dictionary implements IDictionary {
+const store = Symbol('Dictionary');
 
-    private store : {};
+export const Dictionary : IDictionaryConstructor = class T implements IDictionary<T> {
 
-    constructor() {
-        this.store = Object.create(null);
-        
+    constructor(data?: {}) {
+        this[store] = data ? Object.assign(Object.create(null), data) : Object.create(null);
     }
 
-    get (index: number | string) {
-        console.log(1);
-        return this.store[index];
+    get (key: PropertyKey) : T {
+        return this[store][key];
     }
 
-    set (index: number | string, value: any) {
-        console.log(2);
-        return this.store[index] = value;
+    set (key: PropertyKey, value: T) : T {
+        return this[store][key] = value;
     }
 
-    get keys() {
-        return Object.keys(this.store);
+    get keys() : string[] {
+        return Object.keys(this[store]);
     }
 
-    get values() {
-        return Object.values(this.store);
+    get values() : T[] {
+        return Object.values(this[store]);
     }
 
-    get entries() {
-        return Object.entries(this.store);
+    get entries() : [string, T][] {
+        return Object.entries(this[store]);
     }
 
-    get count() {
-        return this.entries.length;
+    get count() : number {
+        return this.keys.length;
     }
-}
 
+    clone() : IDictionary<T> {
+        return new Dictionary<T>(this[store]);
+    }
 
+    toArray() : [string, T][] {
+        return this.entries;
+    }
 
-let a = new Dictionary();
+    clear() : void {
+        this[store] = Object.create(null);
+    }
 
-a[1] = 2;
-
-
-console.log(a.keys);
+};
