@@ -5,3 +5,6 @@ export class Test<T> implements ITest<T> {
         return '';
     }
 };
+
+
+let t = new Test
