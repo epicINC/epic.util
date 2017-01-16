@@ -10,7 +10,6 @@ declare global {
     type Proxify<T> = {
         [P in keyof T]: { get(): T[P]; set(v: T[P]): void };
     };
-    
 
     type Action0 = () => void;
     type Action1<T> = (arg: T) => void;
