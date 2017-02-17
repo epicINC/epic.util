@@ -190,7 +190,5 @@ export namespace epic {
 
 };
 
-console.log(epic.util.distinct([1,2,3,4,5,1,6]));
-
 
 export default epic;
