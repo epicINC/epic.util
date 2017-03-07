@@ -8,7 +8,7 @@ declare global {
     };
 
     type Proxify<T> = {
-        [P in keyof T]: { get(): T[P]; set(v: T[P]): void };
+        [P in keyof T]: { get() : T[P]; set(v: T[P]) : void };
     };
 
     type Action0 = () => void;
@@ -64,9 +64,9 @@ declare global {
 export namespace epic {
 
     interface Node<T, R> {
-        value: T | R,
-        left: Node<T, R>,
-        right: Node<T, R>
+        value: T | R;
+        left: Node<T, R>;
+        right: Node<T, R>;
     }
 
     export class distinct {
@@ -77,7 +77,7 @@ export namespace epic {
 
         static set<T, R>(value: T[], selector?: string | Func1<T, R>) {
             let
-                keySelector: Func1<T, R>| Func1<T, T> = epic.selector.distinct(selector),
+                keySelector : Func1<T, R>| Func1<T, T> = epic.selector.distinct(selector),
                 checker = new Set(),
                 result : T[] = [];
 
@@ -85,8 +85,8 @@ export namespace epic {
                 item = value[i];
                 key = keySelector(item);
                 if (checker.has(key)) continue;
-				checker.add(key);
-				result.push(item);
+                checker.add(key);
+                result.push(item);
             }
             return result;
         }
@@ -97,17 +97,17 @@ export namespace epic {
 
         static binary<T, R>(value: T[], selector?: string | Func1<T, R>) {
             let
-                keySelector: Func1<T, R>| Func1<T, T> = epic.selector.distinct(selector),
+                keySelector : Func1<T, R>| Func1<T, T> = epic.selector.distinct(selector),
                 bst : Node<T, R> = {value: keySelector(value[0]), left: null, right: null},
                 result = [value[0]];
 
-            for(let i = 1, count = value.length, key: T | R, item: T, uv: boolean, root: Node<T, R>; i < count; i++){
+            for (let i = 1, count = value.length, key : T | R, item : T, uv : boolean, root : Node<T, R>; i < count; i++) {
                 item = value[i];
                 key = keySelector(item);
                 root = bst;
                 uv = true;
 
-                while(true) {
+                while (true) {
                     if (key > root.value) {
                         if (!root.right) {
                             root.right = {value: key, left: null, right: null};
@@ -183,14 +183,11 @@ export namespace epic {
                 selector = epic.selector.property<T, R>(selector);
 
             let result = {};
-            util.each<T>(value, e => result[(<Func1<T, R>>selector)(e).toString()] = (<Func1<T, R>>selector)(e));
+            util.each<T>(value, e => result[((<Func1<T, R>>selector)(e)).toString()] = (<Func1<T, R>>selector)(e));
             return result;
         };
     };
 
 };
-
-console.log(epic.util.distinct([1,2,3,4,5,1,6]));
-
 
 export default epic;
