@@ -79,7 +79,6 @@ export namespace epic {
         static set<T, R>(value: T[], selector: Func1<T, R>) : T[];
 
         static set<T, R>(value: T[], selector?: string | Func1<T, R>) {
-            let a : Funx<strign>;
             let
                 keySelector : Func1<T, R>| Func1<T, T> = epic.selector.distinct(selector),
                 checker = new Set(),
