@@ -3,7 +3,7 @@
         "class-name": true,
 		"interface-name": [true, "always-prefix"],
         "comment-format": [true, "check-space"],
-        "indent": [true, "spaces"],
+        "indent": [true, "tab"],
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-internal-module": true,

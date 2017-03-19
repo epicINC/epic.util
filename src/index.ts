@@ -54,8 +54,11 @@ declare global {
         <T1, T2, T3, T4, T5, T6, T7, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7) : TResult;
         <T1, T2, T3, T4, T5, T6, T7, T8, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8) : TResult;
     }
+    type Predicate<T> = (item: T) => boolean;
 
-
+     function Funx<TResult>() : TResult;
+     function Funx<T, TResult>(arg: T) : TResult;
+    function Funx<T1, T2, TResult>(arg1: T1, arg2: T2) : TResult;
 
 };
 
@@ -76,6 +79,7 @@ export namespace epic {
         static set<T, R>(value: T[], selector: Func1<T, R>) : T[];
 
         static set<T, R>(value: T[], selector?: string | Func1<T, R>) {
+            let a : Funx<strign>;
             let
                 keySelector : Func1<T, R>| Func1<T, T> = epic.selector.distinct(selector),
                 checker = new Set(),
