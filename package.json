@@ -1,9 +1,10 @@
 {
-  "name": "tst",
-  "version": "1.0.0",
+  "name": "epic.util",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepublish": "",
     "webpack": "webpack --watch",
     "dev": "node --harmony ./dist/app",
     "ts": "tsc -w",

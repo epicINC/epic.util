@@ -172,7 +172,13 @@ export namespace epic {
         static distinct<T, R>(value: T[], selector?: Func1<T, R>) {
             if (value.length < 200) return epic.distinct.set(value, selector);
             return epic.distinct.binary(value, selector);
-        }
+        };
+
+				static many<T, R>(source: T[], selector: Func1<T, R[]>) : R[] {
+					let result: R[] = [];
+					source.forEach(e => result.push(...selector(e)));
+					return result;
+				}
     };
 
     export class convert {
@@ -193,4 +199,8 @@ export namespace epic {
 
 };
 
+<<<<<<< HEAD:src/index.ts
+=======
+
+>>>>>>> origin/next:src/index.ts
 export default epic;
