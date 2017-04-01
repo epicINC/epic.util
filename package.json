@@ -1,8 +1,9 @@
 {
   "name": "epic.util",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index",
+  "typings": "dist/index",
   "scripts": {
     "prepublish": "",
     "webpack": "webpack --watch",
