@@ -60,11 +60,11 @@ declare global {
      function Funx<T, TResult>(arg: T) : TResult;
     function Funx<T1, T2, TResult>(arg1: T1, arg2: T2) : TResult;
 
-};
+}
 
 
 
-export namespace epic {
+namespace epic {
 
     interface Node<T, R> {
         value: T | R;
@@ -158,28 +158,28 @@ export namespace epic {
         static with<T>(value: T, func: Action1<T>) : T {
             func(value);
             return value;
-        };
+        }
 
         static each<T>(value: Many<T>, action: Action3<T, number, T | T[]>, thisArg?: any) {
             Array.isArray(value) ? value.forEach(action) : thisArg ? action.call(thisArg, value, 0, value) : action(value, 0, value);
             return value;
-        };
+        }
         static map<T, R>(value: Many<T>, func: Func3<T, number, T | T[], R>, thisArg?: any) : Many<R> {
             if (Array.isArray(value)) return value.map(func, thisArg);
             return thisArg ? func.call(thisArg, value, 0, value) : func(value, 0, value);
-        };
+        }
 
         static distinct<T, R>(value: T[], selector?: Func1<T, R>) {
             if (value.length < 200) return epic.distinct.set(value, selector);
             return epic.distinct.binary(value, selector);
-        };
+        }
 
 				static many<T, R>(source: T[], selector: Func1<T, R[]>) : R[] {
 					let result: R[] = [];
 					source.forEach(e => result.push(...selector(e)));
 					return result;
 				}
-    };
+    }
 
     export class convert {
 
@@ -194,9 +194,9 @@ export namespace epic {
             let result = {};
             util.each<T>(value, e => result[((<Func1<T, R>>selector)(e)).toString()] = (<Func1<T, R>>selector)(e));
             return result;
-        };
-    };
+        }
+    }
 
-};
+}
 
-export default epic;
+export = epic;
