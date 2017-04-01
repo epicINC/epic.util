@@ -1,4 +1,4 @@
-namespace System.Collections {
+namespace System1.Collections {
     const
         symbol = Symbol('stack');
 

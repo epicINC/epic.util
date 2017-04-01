@@ -24,7 +24,7 @@ namespace System.Security.Cryptography {
 
 		static djb2 (value: string) : number {
 			let result = 5381;
-			for(let i = 0; i < value.length; i++)
+			for (let i = 0; i < value.length; i++)
 				result = (result << 5) + result + value.charCodeAt(i);
 			return result >>> 0;
 		}
@@ -38,14 +38,14 @@ namespace System.Security.Cryptography {
 
 		static lose (value: string) : number {
 			let result = 0, charCode: number, i = 0;
-			while(charCode = value.charCodeAt(i++))
+			while (charCode = value.charCodeAt(i++))
 				result += charCode;
 			return result;
 		}
 
 		static csharp (value: string) : number {
 			let hash1 = 5381, hash2 = 5381;
-			for(let i = 0; i < value.length; i++) {
+			for (let i = 0; i < value.length; i++) {
 				hash1 = ((hash1 << 5) + hash1) ^ value.charCodeAt(i);
 				if (!value[++i]) break;
 				hash2 = ((hash2 << 5) + hash2) ^ value.charCodeAt(i);
@@ -55,14 +55,14 @@ namespace System.Security.Cryptography {
 
 		static sdbm (value: string) : number {
 			let result = 0;
-			for(let i = 0; i < value.length; i++)
+			for (let i = 0; i < value.length; i++)
 				result = value.charCodeAt(i) + (result << 6) + (result << 16) - result;
 			return result;
 		}
 
 		static java (value: string) : number {
 			let result = 0;
-			for(let i = 0; i < value.length; i++) {
+			for (let i = 0; i < value.length; i++) {
 				result = (result << 5) - result + value.charCodeAt(i);
 				result &= result;
 			}
@@ -77,6 +77,5 @@ namespace System.Security.Cryptography {
 	}
 
 }
-
 
 console.log(System.Security.Cryptography.HashAlgorithm.hash({a:1, b:2}));

@@ -199,8 +199,4 @@ export namespace epic {
 
 };
 
-<<<<<<< HEAD:src/index.ts
-=======
-
->>>>>>> origin/next:src/index.ts
 export default epic;

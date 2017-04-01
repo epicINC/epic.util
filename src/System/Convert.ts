@@ -1,4 +1,4 @@
-/// <reference path="../corlib.ts" />
+
 
 namespace System {
     export class Convert {

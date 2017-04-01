@@ -1,6 +1,6 @@
-namespace System.Collections {
+namespace System1.Collections {
 
-    export interface IDictionary<T> extends IList<T> {
+    export interface IDictionary<T> {
         get (key: PropertyKey) : T;
         set (key: PropertyKey, value: T) : T;
 

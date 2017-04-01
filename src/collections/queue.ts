@@ -1,5 +1,5 @@
 
-namespace System.Collections {
+namespace System1.Collections {
 
     export interface IQueue<T> extends IList<T> {
         new(data?: T[]) : void;

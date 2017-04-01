@@ -1,19 +1,22 @@
 namespace System {
-    type Object  = Object & {
-        GetHashCode() : number;
-    };
 
-    public class Object {
+/*
+    export class Object {
         Equals(value: Object) : boolean {
             return false;
         }
 
-        GetType() : Type {
-            return {};
+        GetType() : string {
+            return '';
         }
 
-        static Equals(target: Object, source: Object) : boolean {
+		GetHashCode() : number{
+			return 0;
+		}
+
+        static Equals(target: Object, source: Object) : boolean {
             return false;
         }
     }
+*/
 }

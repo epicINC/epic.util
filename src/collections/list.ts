@@ -1,4 +1,4 @@
-namespace System.Collections1 {
+namespace System1.Collections {
 
     export interface IList<T> {
         clone() : any;

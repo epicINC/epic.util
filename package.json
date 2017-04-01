@@ -13,6 +13,7 @@
   "author": "S",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^7.0.12",
     "awesome-typescript-loader": "*",
     "source-map-loader": "*",
     "tslib": "*",
