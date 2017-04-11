@@ -56,8 +56,8 @@ declare global {
     }
     type Predicate<T> = (item: T) => boolean;
 
-     function Funx<TResult>() : TResult;
-     function Funx<T, TResult>(arg: T) : TResult;
+    function Funx<TResult>() : TResult;
+    function Funx<T, TResult>(arg: T) : TResult;
     function Funx<T1, T2, TResult>(arg1: T1, arg2: T2) : TResult;
 
 }
