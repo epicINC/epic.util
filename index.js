@@ -19,6 +19,7 @@
 		object: require('./lib/object'),
 		promise: require('./lib/promise'),
 		qs: require('./lib/querystring'),
+		Parallel: require('./lib/parallel'),
 		isArray: Array.isArray,
 		hash: data =>
 		{
