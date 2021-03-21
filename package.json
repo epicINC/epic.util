@@ -5,19 +5,17 @@
   "main": "dist/index",
   "typings": "dist/index",
   "scripts": {
-    "prepublish": "",
-    "webpack": "webpack --watch",
-    "dev": "node --harmony ./dist/app",
+    "dev": "tsnd --files",
     "ts": "tsc -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "S",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^7.0.12",
-    "typescript": "*",
-    "webpack": "*"
-  },
-  "dependencies": {
+    "@types/jest": "^26.0.21",
+    "@types/node": "^14.14.35",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.4",
+    "typescript": "^4.2.3"
   }
 }
