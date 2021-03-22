@@ -1,3 +1,4 @@
+import { FlagEnums } from '../src/flagEnum'
 
 
 
@@ -6,9 +7,12 @@ enum FlagType {
   Insert = 1 << 1,
   Update = 1 << 2,
   Delete = 1 << 3,
+  Recover = 1 << 4,
   Modify = Insert | Update | Delete,
-  All = View | Modify
+  All = View | Modify | Recover
 }
 
 
-console.log(FlagEnums.comboObject(FlagType))
+// console.log(FlagEnums.comboObject(FlagType))
+
+console.log(FlagEnums.keys(FlagType, FlagType.Recover | FlagType.Modify))

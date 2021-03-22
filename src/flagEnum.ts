@@ -53,24 +53,27 @@ class FlagEnumUtilityImpl {
       return accumulator
     }, new Map())
     this.comboMap.set(enumeration as Record<string, number>, result)
-
+    return result
   }
 
 
-  keys<TEnum extends Record<string, number>>(enumeration: TEnum): (keyof TEnum)[]
-  keys<TEnum extends Record<string, number>>(enumeration: TEnum, value: number): (keyof TEnum)[]
-  keys<TEnum extends Record<string, number>>(enumeration: TEnum, ...values: number[]) : (keyof TEnum)[][]
-  keys<TEnum extends Record<string, number>>(enumeration: TEnum, ...values: number[]) : (keyof TEnum)[][] | (keyof TEnum)[] {
-    if (!values.length) return Array.from(this.keyObject(enumeration).keys())
+  keys<TEnum extends Record<string, number | string>>(enumeration: TEnum): (keyof TEnum)[]
+  keys<TEnum extends Record<string, number | string>>(enumeration: TEnum, value: number): (keyof TEnum)[]
+  keys<TEnum extends Record<string, number | string>>(enumeration: TEnum, ...values: number[]) : (keyof TEnum)[][]
+  keys<TEnum extends Record<string, number | string>>(enumeration: TEnum, ...values: number[]) : (keyof TEnum)[][] | (keyof TEnum)[] {
+    if (!values.length) return Array.from(this.keyObject(enumeration as Record<string, number>).keys())
 
-    const map = this.valueObject(enumeration)
+    const map = this.valueObject(enumeration as Record<string, number>)
 
     const result = values.map(e => {
       if (map.has(e)) return map.get(e)
       return MapsUtilityImpl.reduce(map, (accumulator, [v, k]) => {
         if ((e & k) === k) {
-          if ((k & (k -1)) !== 0)
-            this.comboMap.get(enumeration).get(k)
+          if ((k & (k - 1)) !== 0) {
+            console.log(k, this.comboObject(enumeration as Record<string, number>).get(k))
+            this.comboObject(enumeration as Record<string, number>).get(k)
+          } else
+            accumulator.push(...v)
         }
         return accumulator
       }, [])
