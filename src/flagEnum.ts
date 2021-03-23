@@ -1,12 +1,5 @@
+import { Maps } from './maps'
 
-
-class MapsUtilityImpl {
-  static reduce<K, V, R>(map: Map<K, V>, fn: Func<[R, [V, K], number, Map<K, V>], R>, initialValue: R) {
-    let i = 0
-    map.forEach((v, k, map) => initialValue = fn(initialValue, [v, k], i++, map))
-    return initialValue
-  }
-}
 
 
 class FlagEnumUtilityImpl {
@@ -32,13 +25,13 @@ class FlagEnumUtilityImpl {
     return result
   }
 
-  comboObject<TEnum extends Record<string, number | string>>(enumeration: TEnum) {
+  private comboObject<TEnum extends Record<string, number | string>>(enumeration: TEnum) {
     let result = this.comboMap.get(enumeration as Record<string, number>)
     if (result) return result
     result = this.valueObject(enumeration as Record<string, number>)
     
     const recursive = (map: Map<number, string[]>, check: number) => {
-      return MapsUtilityImpl.reduce(map, (accumulator, [v, k]) => {
+      return Maps.reduce(map, (accumulator, [v, k]) => {
         if (check !== k && (check & k) === k) {
           accumulator.push(...v)
           if ((k & (k -1)) !== 0) accumulator.push(...recursive(map, k))
@@ -47,13 +40,62 @@ class FlagEnumUtilityImpl {
       }, [] as string[])
     }
 
-    result = MapsUtilityImpl.reduce(result, (accumulator, [, k]) => {
+    result = Maps.reduce(result, (accumulator, [, k]) => {
       if ((k & (k -1)) !== 0)
         accumulator.set(k, Array.from(new Set(recursive(result, k))))
       return accumulator
     }, new Map())
     this.comboMap.set(enumeration as Record<string, number>, result)
     return result
+  }
+
+
+
+
+  all<TEnum extends number = number>(src: TEnum) : boolean
+  all<TEnum extends number = number>(src: TEnum, val: number) : boolean
+  all<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]) : boolean
+  all<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]): boolean {
+    if (!values.length) return false
+    if (values.length === 1) return (src & values[0]) === values[0]
+    return values.every(e => (src & e) === e)
+  }
+  
+  any<TEnum extends number = number>(src: TEnum) : boolean
+  any<TEnum extends number = number>(src: TEnum, val: number) : boolean
+  any<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]) : boolean
+  any<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]): boolean {
+    if (!values.length) return false
+    if (values.length === 1) return (src & values[0]) !== 0
+    return values.some(e => (src & e) !== 0)
+	}
+
+
+  add<TEnum extends number = number>(src: TEnum) : TEnum
+  add<TEnum extends number = number>(src: TEnum, val: number) : number
+  add<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]) : number
+  add<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]) : number {
+    if (!values.length) return src
+    if (values.length === 1) return src | values[0]
+    return values.reduce((accumulator, e) => accumulator | e, src)
+	}
+
+  remove<TEnum extends number = number>(src: TEnum) : TEnum
+  remove<TEnum extends number = number>(src: TEnum, val: number) : number
+  remove<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]) : number
+	remove<TEnum extends number = number>(src: TEnum , ...values: (number | TEnum)[]) : number {
+    if (!values.length) return src
+    if (values.length === 1) return src & ~values[0]
+    return values.reduce((accumulator, e) => accumulator & ~e, src)
+	}
+
+  reverse<TEnum extends number = number>(src: TEnum) : TEnum
+  reverse<TEnum extends number = number>(src: TEnum, val: number) : number
+  reverse<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]) : number
+  reverse<TEnum extends number = number>(src: TEnum, ...values: (number | TEnum)[]): number {
+    if (!values.length) return src
+    if (values.length === 1) return src ^ values[0]
+    return values.reduce((accumulator, e) => accumulator ^ e, src)
   }
 
 
@@ -67,7 +109,7 @@ class FlagEnumUtilityImpl {
 
     const result = values.map(e => {
       if (map.has(e)) return map.get(e)
-      return MapsUtilityImpl.reduce(map, (accumulator, [v, k]) => {
+      return Maps.reduce(map, (accumulator, [v, k]) => {
         if ((e & k) === k) {
           if ((k & (k - 1)) !== 0) {
             console.log(k, this.comboObject(enumeration as Record<string, number>).get(k))
@@ -80,30 +122,6 @@ class FlagEnumUtilityImpl {
     })
     return values.length === 1 ? result[0] : result
   }
-
-
-
-
-	all<TEnum extends number = number>(src: TEnum, dest: number) : boolean {
-		return (src & dest) === dest
-  }
-  
-  any(src: number, dest: number) : boolean {
-		return (src & dest) !== 0
-	}
-
-	add(src: number , val: number) : number {
-		return src | val
-	}
-
-	remove(src: number , val: number) : number {
-		return src & ~val
-	}
-
-	reverse(src: number, val: number) : number {
-		return src ^ val
-  }
-
 
 
 }
