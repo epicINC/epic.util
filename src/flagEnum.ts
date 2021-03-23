@@ -109,16 +109,17 @@ class FlagEnumUtilityImpl {
 
     const result = values.map(e => {
       if (map.has(e)) return map.get(e)
-      return Maps.reduce(map, (accumulator, [v, k]) => {
+      const removes: string[] = []
+      const ret = Maps.reduce(map, (accumulator, [v, k]) => {
         if ((e & k) === k) {
-          if ((k & (k - 1)) !== 0) {
-            console.log(k, this.comboObject(enumeration as Record<string, number>).get(k))
-            this.comboObject(enumeration as Record<string, number>).get(k)
-          } else
-            accumulator.push(...v)
+          if ((k & (k - 1)) !== 0)
+            removes.push(...this.comboObject(enumeration as Record<string, number>).get(k))
+          v.forEach(e => accumulator.add(e))
         }
         return accumulator
-      }, [])
+      }, new Set<string>())
+      if (removes.length) removes.forEach(e => ret.delete(e))
+      return Array.from(ret)
     })
     return values.length === 1 ? result[0] : result
   }

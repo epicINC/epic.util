@@ -168,11 +168,11 @@ describe('Flags Enum keys Test', () => {
   })
 
 
-  test('mutil', () => {
+  test('mutil1', () => {
     expect(FlagEnums.keys(FlagType, FlagType.Insert | FlagType.Update)).toStrictEqual(expect.arrayContaining(['Insert', 'Update']))
   })
 
-  test('mutil', () => {
+  test('mutil2', () => {
     expect(FlagEnums.keys(FlagType, FlagType.Modify | FlagType.View)).toStrictEqual(expect.arrayContaining(['Modify', 'View']))
   })
 

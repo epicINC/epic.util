@@ -15,4 +15,4 @@ enum FlagType {
 
 // console.log(FlagEnums.comboObject(FlagType))
 
-console.log(FlagEnums.keys(FlagType, FlagType.Recover | FlagType.Modify))
+console.log(FlagEnums.keys(FlagType, FlagType.Modify | FlagType.View, FlagType.Modify | FlagType.Recover))
