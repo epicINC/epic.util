@@ -1,10 +1,9 @@
 {
     "compilerOptions": {
         "outDir": "./dist",
-        "target": "es2019",
-        "module": "commonjs",
+        "target": "ESNext",
         "moduleResolution": "node",
-        "lib": ["es2019"],
+        "lib": ["ESNext"],
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -15,7 +14,8 @@
         "noImplicitThis": true,
         "suppressImplicitAnyIndexErrors": true,
         "declaration": true,
-        "importHelpers": true,
+        "importHelpers": false,
+				"esModuleInterop": true,
         "alwaysStrict": true,
         "pretty": true,
         "noUnusedParameters": true,

@@ -33,30 +33,10 @@ declare global {
   type Func7<T1, T2, T3, T4, T5, T6, T7, TResult> = (arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7) => TResult
   type Func8<T1, T2, T3, T4, T5, T6, T7, T8, TResult> = (arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8) => TResult
 
-  interface Action {
-      () : void
-      <T>(arg: T) : void
-      <T1, T2>(arg1: T1, arg2: T2) : void
-      <T1, T2, T3>(arg1: T1, arg2: T2, arg3: T3) : void
-      <T1, T2, T3, T4>(arg1: T1, arg2: T2, arg3: T3, arg4: T4) : void
-      <T1, T2, T3, T4, T5>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5) : void
-      <T1, T2, T3, T4, T5, T6>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6) : void
-      <T1, T2, T3, T4, T5, T6, T7>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7) : void
-      <T1, T2, T3, T4, T5, T6, T7, T8>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8) : void
-  }
+
+	type Action<T extends any[], TResult> = (...args: T) => void;
   type Func<T extends any[], TResult> = (...args: T) => TResult;
   
-  interface Func {
-      <TResult>() : TResult
-      <T, TResult>(arg: T) :  TResult
-      <T1, T2, TResult>(arg1: T1, arg2: T2) : TResult
-      <T1, T2, T3, TResult>(arg1: T1, arg2: T2, arg3: T3) : TResult
-      <T1, T2, T3, T4, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4) : TResult
-      <T1, T2, T3, T4, T5, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5) : TResult
-      <T1, T2, T3, T4, T5, T6, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6) : TResult
-      <T1, T2, T3, T4, T5, T6, T7, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7) : TResult
-      <T1, T2, T3, T4, T5, T6, T7, T8, TResult>(arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8) : TResult
-  }
 
 
 

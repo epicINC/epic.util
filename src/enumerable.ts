@@ -24,8 +24,9 @@ class EnumerableImpl {
 	distinct<T>(source: T[], comparer?: Func<[T, T], boolean>) {
 		if (!source) Errors.ArgumentNull().throw()
 		if (!comparer) return Array.from(new Set(source))
-		return source.reduce((r, e, i) => {
-			
+		return source.reduce((r, e) => {
+			if (!this.contains(r, e, comparer)) r.push(e)
+			return r
 		}, [])
 	}
 
@@ -51,5 +52,4 @@ class EnumerableImpl {
 }
 
 export const Enumerable = new EnumerableImpl()
-
 

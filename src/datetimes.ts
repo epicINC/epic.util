@@ -131,3 +131,5 @@ const StandardDateandTimeFormatSpecifier = {
 	'd': 'yyyy/M/d'
 }
 */
+
+export const DateTimes = new DateTimeUtilityImpl
