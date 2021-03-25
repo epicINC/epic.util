@@ -5,7 +5,8 @@ export class ErrorsImpl {
 	ArgumentOutOfRange() {
 		return new ArgumentOutOfRangeException()
 	}
-	ArgumentNull() {
+	ArgumentNull(name: string) {
+		console.log(name)
 		return new ArgumentNullException()
 	}
 	InvalidOperation() {
@@ -17,6 +18,9 @@ export const Errors = new ErrorsImpl
 
 
 abstract class ErrorBase extends Error {
+
+
+
 	throw() {
 		throw this
 	}

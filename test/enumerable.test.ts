@@ -31,3 +31,34 @@ describe('Enumerable sum', () => {
 	})
 
 })
+
+
+
+describe('Enumerable groupBy', () => {
+	const pets = [
+		{ name: "Barley", age: 8.3 },
+		{ name: "Boots", age: 4.9 },
+		{ name: "Whiskers", age: 1.5 },
+		{ name: "Daisy", age: 4.3 } 
+	]
+	
+
+	test('groupBy', () => {
+		const actual = Enumerable.groupBy(pets, 
+			pet => Math.floor(pet.age),
+			pet => pet.age,
+			(baseAge, ages) => ({key: baseAge, count: ages.length, min: Enumerable.min(ages), max: Enumerable.max(ages)})
+		)
+
+		const expected = [
+			{ key: 8, count: 1, min: 8.3, max: 8.3 },
+			{ key: 4, count: 2, min: 4.3, max: 4.9 },
+			{ key: 1, count: 1, min: 1.5, max: 1.5 }
+		]
+
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+	})
+
+
+
+})
