@@ -2,7 +2,8 @@
 
 
 export class ErrorsImpl {
-	ArgumentOutOfRange() {
+	ArgumentOutOfRange(name: string) {
+		console.log(name)
 		return new ArgumentOutOfRangeException()
 	}
 	ArgumentNull(name: string) {

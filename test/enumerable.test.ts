@@ -62,3 +62,87 @@ describe('Enumerable groupBy', () => {
 
 
 })
+
+
+describe('Enumerable selectMany ', () => {
+	test('', () => {
+		const petOwners =
+		[ { name: 'Higa, Sidney', pets: ['Scruffy', 'Sam']},
+			{ name: 'Ashkenazi, Ronen', pets: ['Walker', 'Sugar']},
+			{ name: 'Price, Vernette', pets: ['Scratches', 'Diesel']},
+			{ name: 'Hines, Patrick', pets: ['Dusty']}
+		]
+		const actual = Enumerable.selectMany(petOwners,
+			e => e.pets,
+			(e, k) => ({petOwner: e, petName: k})
+		)
+		.filter(e => e.petName.startsWith('S'))
+		.map(e => ({owner: e.petOwner.name, pet: e.petName}))
+
+		const expected = [
+			{ owner: 'Higa, Sidney', pet: 'Scruffy' },
+			{ owner: 'Higa, Sidney', pet: 'Sam' },
+			{ owner: 'Ashkenazi, Ronen', pet: 'Sugar' },
+			{ owner: 'Price, Vernette', pet: 'Scratches' }
+		]
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+
+	})
+
+})
+
+describe('Enumerable skip ', () => {
+
+	test('skip', () => {
+		const grades = [ 59, 82, 70, 56, 92, 98, 85 ]
+		const actual = Enumerable.skip(Enumerable.orderByDescending(grades, e => e), 3)
+		const expected = [ 82, 70, 59, 56 ]
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+	})
+	
+})
+
+
+
+describe('Enumerable skipWhile ', () => {
+
+	test('skipWhile', () => {
+		const grades = [ 59, 82, 70, 56, 92, 98, 85 ]
+		const actual = Enumerable.skipWhile(Enumerable.orderByDescending(grades, e => e), e => e >= 80)
+		const expected = [ 70, 59, 56 ]
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+	})
+
+
+	test('skipWhile width index', () => {
+		const amounts = [ 5000, 2500, 9000, 8000, 6500, 4000, 1500, 5500 ]
+		const actual = Enumerable.skipWhile(amounts, (e, i) => e > i * 1000)
+		const expected = [ 4000, 1500, 5500 ]
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+	})
+	
+})
+
+
+
+
+
+describe('Enumerable skipWhile ', () => {
+
+	test('takeWhile', () => {
+		const fruits = [ "apple", "banana", "mango", "orange", "passionfruit", "grape" ]
+		const actual = Enumerable.takeWhile(fruits, e => "orange" !== e)
+		const expected = [ 'apple', 'banana', 'mango' ]
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+	})
+
+
+	test('takeWhile width index', () => {
+		const fruits = [ "apple", "passionfruit", "banana", "mango", "orange", "blueberry", "grape", "strawberry" ]
+		const actual = Enumerable.takeWhile(fruits, (e, i) => e.length >= i)
+		const expected = [ 'apple', 'passionfruit', 'banana', 'mango', 'orange', 'blueberry' ]
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
+	})
+	
+})
+
