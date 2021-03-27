@@ -26,6 +26,12 @@ export class IEnumerable<T> {
 		}
 }
 
+export class EqualityComparer {
+	static Default<T>() : IEqualityComparer<T> {
+		return (x, y) => x === y
+	}
+}
+
 
 
 class EnumerableImpl {
@@ -59,7 +65,7 @@ class EnumerableImpl {
 		return new Array<T>()
 	}
 
-	except<T>(first: T[], second: T[], comparer: IEqualityComparer<T> = (x, y) => x === y) {
+	except<T>(first: T[], second: T[], comparer: IEqualityComparer<T> = EqualityComparer.Default<T>()) {
 		if (!first) Errors.ArgumentNull('first').throw()
 		if (!second) Errors.ArgumentNull('second').throw()
 
@@ -90,10 +96,10 @@ class EnumerableImpl {
 	groupBy<T, K, V, R>(source: T[], {keySelector, elementSelector, resultSelector} : Pick<IGroupArguments<T, K, V, R>, 'keySelector' | 'elementSelector' | 'resultSelector'>) : R[]
 	groupBy<T, K, V, R>(source: T[], {keySelector, elementSelector, resultSelector, comparer} : Pick<IGroupArguments<T, K, V, R>, 'keySelector' | 'elementSelector' | 'resultSelector' | 'comparer'>) : R[]
 	groupBy<T, K, V, R>(source: T[], {keySelector, elementSelector, resultSelector, comparer}: IGroupArguments<T, K, V, R>) : R[] {
-			// elementSelector: Func<[T], V> = v => v as unknown as V, resultSelector: Func<[K, V[]], R> = (k, v) => [k, v] as unknown as R, comparer: IEqualityComparer<K> = (x, y) => x === y
+			// elementSelector: Func<[T], V> = v => v as unknown as V, resultSelector: Func<[K, V[]], R> = (k, v) => [k, v] as unknown as R, comparer: IEqualityComparer<K> = EqualityComparer.Default<K>()
 		if (!source) Errors.ArgumentNull('source').throw()
 		if  (!source.length) return []
-		if (!comparer) comparer = (x, y) => x === y
+		if (!comparer) comparer = EqualityComparer.Default<K>()
 		return source.reduce((a, e) => {
 			const k = keySelector(e)
 			let i = a.find(([ik]) => comparer(ik, k))
@@ -220,7 +226,7 @@ class EnumerableImpl {
 
 	sequenceEqual<T>(first: T[], second: T[]) : boolean
 	sequenceEqual<T>(first: T[], second: T[], comparer: IEqualityComparer<T>) : boolean
-	sequenceEqual<T>(first: T[], second: T[], comparer: IEqualityComparer<T> = (x, y) => x === y) : boolean {
+	sequenceEqual<T>(first: T[], second: T[], comparer: IEqualityComparer<T> = EqualityComparer.Default<T>()) : boolean {
 		if (!first) Errors.ArgumentNull('first').throw()
 		if (!second) Errors.ArgumentNull('second').throw()
 		if (first.length !== second.length) return false
@@ -273,12 +279,80 @@ class EnumerableImpl {
 		}
 		return result
 	}
+
+	thenBy() {
+		throw new Error()
+	}
+
+	thenByDescending() {
+		throw new Error()
+	}
+
+	toDictionary<T, K>(source: T[], keySelector: Func<[T], K>) : Map<K, T>
+	toDictionary<T, K, V>(source: T[], keySelector: Func<[T], K>, elementSelector: Func<[T], V>) : Map<K, V>
+	toDictionary<T, K, V>(source: T[], keySelector: Func<[T], K>, elementSelector?: Func<[T], V>) : Map<K, V> {
+		if (!source) Errors.ArgumentNull('source').throw()
+		if (!keySelector) Errors.ArgumentNull('keySelector').throw()
+		if (arguments.length === 2)
+		elementSelector = e => e as unknown as V
+		else
+			if (!elementSelector) Errors.ArgumentNull('elementSelector').throw()
+		let k: K
+		return source.reduce((r, e) => {
+			k = keySelector(e)
+			if (k === null || k === undefined) Errors.ArgumentNull('keySelector').throw()
+			if (r.has(k)) Errors.Argument('keySelector').throw()
+			r.set(k, elementSelector(e))
+			return r
+		}, new Map())
+	}
+
+	union<T>(first: T[], second: T[]) : T[]
+	union<T>(first: T[], second: T[], comparer: IEqualityComparer<T>) : T[]
+	union<T>(first: T[], second: T[], comparer?: IEqualityComparer<T>) : T[] {
+		if (!first) Errors.ArgumentNull('first').throw()
+		if (!second) Errors.ArgumentNull('second').throw()
+		if (!comparer) return Array.from(new Set([...first, ...second]))
+
+		const fn: Func<[T[], T], T[]> = (r, e) => {
+			if (!Enumerable.contains(r, e, comparer)) r.push(e)
+			return r
+		}
+		const result = first.reduce(fn, [])
+		return second.reduce(fn, result)
+	}
+
+	zip<T, S>(first: T[], second: S[]) : (T | S)[]
+	zip<T, S, R>(first: T[], second: S[], resultSelector: Func<[T, S], R>) : R[]
+	zip<T, S, R>(first: T[], second: S[], resultSelector?: Func<[T, S], R>) : R[] | (T | S)[] {
+		if (!first) Errors.ArgumentNull('first').throw()
+		if (!second) Errors.ArgumentNull('second').throw()
+		if (arguments.length === 2)
+			resultSelector = (x, y) => ({...x, ...y}) as unknown as R
+		else
+			if (!resultSelector) Errors.ArgumentNull('resultSelector').throw()
+		
+		return first.reduce((r, e, i) => {
+			if (i < second.length) r.push(resultSelector(e, second[i]))
+			return r
+		}, [])
+		
+	}
+
+	intersect<T>(first: T[], second: T[], comparer?: IEqualityComparer<T>) : T[] {
+		if (!first) Errors.ArgumentNull('first').throw()
+		if (!second) Errors.ArgumentNull('second').throw()
+
+		return first.reduce((r, e) => {
+			if (Enumerable.contains(second, e, comparer)) r.push(e)
+			return r
+		}, [])
+	}
 }
 
+
 export const Enumerable = new EnumerableImpl()
-const fruits = [ "grape", "passionfruit", "banana", "mango", "orange", "raspberry", "apple", "blueberry" ]
 
-const actual = Enumerable.orderBy(Enumerable.orderBy(fruits, e => e.length), e => e)
 
-console.log(actual)
+// console.log(actual, )
 // console.log(actual, expected)

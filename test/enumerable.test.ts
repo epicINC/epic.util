@@ -146,3 +146,85 @@ describe('Enumerable skipWhile ', () => {
 	
 })
 
+
+describe('Enumerable ToDictionary ', () => {
+
+	test('with keySelector', () => {
+		const packages = [ 
+			{ company: "Coho Vineyard", weight: 25.2, trackingNumber: 89453312 },
+			{ company: "Lucerne Publishing", weight: 18.7, trackingNumber: 89112755 },
+			{ company: "Wingtip Toys", weight: 6.0, trackingNumber: 299456122 },
+			{ company: "Adventure Works", weight: 33.8, trackingNumber: 4665518773 }
+		 ]
+		
+		const actual = Enumerable.ToDictionary(
+			packages,
+			e => e.trackingNumber
+		)
+		const expected = [ 89453312, 89112755, 299456122, 4665518773 ]
+		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+	})
+})
+
+
+
+
+describe('Enumerable union ', () => {
+
+	test('normal', () => {
+		const ints1 = [ 5, 3, 9, 7, 5, 9, 3, 7 ]
+		const ints2 = [ 8, 3, 6, 4, 4, 9, 1, 0 ]
+		const actual = Enumerable.union(ints1, ints2);
+		
+		const expected = [ 5, 3, 9, 7, 8, 6, 4, 1, 0 ]
+		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+	})
+
+	test('with comparer', () => {
+		const store1 = [ { name: "apple", code: 9 }, { name: "orange", code: 4 } ]
+		const store2 = [ { name: "apple", code: 9 }, { name: "lemon", code: 12 } ]
+		const actual = Enumerable.union(store1, store2, (x, y) => x.code === y.code && x.name === y.name)
+		
+		const expected = [
+			{ name: 'apple', code: 9 },
+			{ name: 'orange', code: 4 },
+			{ name: 'lemon', code: 12 }
+		]
+		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+	})
+})
+
+
+describe('Enumerable zip ', () => {
+	test('with resultSelector', () => {
+		const numbers = [ 1, 2, 3, 4 ]
+		const words = [ 'one', 'two', 'three' ]
+		const actual = Enumerable.zip(numbers, words, (first, second) => first + ' ' + second);
+
+		const expected = [ '1 one', '2 two', '3 three' ]
+		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+	})
+})
+
+
+
+describe('Enumerable intersect ', () => {
+
+	test('normal', () => {
+		const ints1 = [ 44, 26, 92, 30, 71, 38 ]
+		const ints2 = [ 39, 59, 83, 47, 26, 4, 30 ]
+		const actual = Enumerable.intersect(ints1, ints2)
+		
+		const expected = [ 26, 30 ]
+		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+	})
+
+	test('with comparer', () => {
+		const store1 = [ { name: "apple", code: 9 }, { name: "orange", code: 4 } ]
+		const store2 = [ { name: "apple", code: 9 }, { name: "lemon", code: 12 } ]
+		const actual = Enumerable.intersect(store1, store2, (x, y) => x.code === y.code && x.name === y.name)
+		
+		const expected = [ { name: 'apple', code: 9 } ]
+		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+	})
+})

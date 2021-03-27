@@ -2,12 +2,16 @@
 
 
 export class ErrorsImpl {
-	ArgumentOutOfRange(name: string) {
-		console.log(name)
+	Argument(message?: string) {
+		console.log(message)
+		return new ArgumentException()
+	}
+	ArgumentOutOfRange(message?: string) {
+		console.log(message)
 		return new ArgumentOutOfRangeException()
 	}
-	ArgumentNull(name: string) {
-		console.log(name)
+	ArgumentNull(message?: string) {
+		console.log(message)
 		return new ArgumentNullException()
 	}
 	InvalidOperation() {
@@ -30,6 +34,8 @@ abstract class ErrorBase extends Error {
 
 
 
+
+class ArgumentException extends ErrorBase {}
 class ArgumentOutOfRangeException extends ErrorBase {}
 class ArgumentNullException extends ErrorBase {}
 class InvalidOperationException extends ErrorBase {}
