@@ -1,4 +1,4 @@
-import { FlagEnums } from '../src/flagEnum'
+import { FlagEnums } from '../src/flags'
 
 
 enum FlagType {

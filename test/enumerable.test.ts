@@ -44,10 +44,11 @@ describe('Enumerable groupBy', () => {
 	
 
 	test('groupBy', () => {
-		const actual = Enumerable.groupBy(pets, 
-			pet => Math.floor(pet.age),
-			pet => pet.age,
-			(baseAge, ages) => ({key: baseAge, count: ages.length, min: Enumerable.min(ages), max: Enumerable.max(ages)})
+		const actual = Enumerable.groupBy(pets, {
+			keySelector: pet => Math.floor(pet.age),
+			elementSelector: pet => pet.age,
+			resultSelector: (baseAge, ages) => ({key: baseAge, count: ages.length, min: Enumerable.min(ages), max: Enumerable.max(ages)})
+		}
 		)
 
 		const expected = [
@@ -147,7 +148,7 @@ describe('Enumerable skipWhile ', () => {
 })
 
 
-describe('Enumerable ToDictionary ', () => {
+describe('Enumerable toDictionary ', () => {
 
 	test('with keySelector', () => {
 		const packages = [ 
@@ -157,7 +158,7 @@ describe('Enumerable ToDictionary ', () => {
 			{ company: "Adventure Works", weight: 33.8, trackingNumber: 4665518773 }
 		 ]
 		
-		const actual = Enumerable.ToDictionary(
+		const actual = Enumerable.toDictionary(
 			packages,
 			e => e.trackingNumber
 		)
@@ -177,7 +178,7 @@ describe('Enumerable union ', () => {
 		const actual = Enumerable.union(ints1, ints2);
 		
 		const expected = [ 5, 3, 9, 7, 8, 6, 4, 1, 0 ]
-		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
 	})
 
 	test('with comparer', () => {
@@ -190,7 +191,7 @@ describe('Enumerable union ', () => {
 			{ name: 'orange', code: 4 },
 			{ name: 'lemon', code: 12 }
 		]
-		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
 	})
 })
 
@@ -202,7 +203,7 @@ describe('Enumerable zip ', () => {
 		const actual = Enumerable.zip(numbers, words, (first, second) => first + ' ' + second);
 
 		const expected = [ '1 one', '2 two', '3 three' ]
-		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
 	})
 })
 
@@ -216,7 +217,7 @@ describe('Enumerable intersect ', () => {
 		const actual = Enumerable.intersect(ints1, ints2)
 		
 		const expected = [ 26, 30 ]
-		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
 	})
 
 	test('with comparer', () => {
@@ -225,6 +226,6 @@ describe('Enumerable intersect ', () => {
 		const actual = Enumerable.intersect(store1, store2, (x, y) => x.code === y.code && x.name === y.name)
 		
 		const expected = [ { name: 'apple', code: 9 } ]
-		expect(Array.from(actual.keys())).toStrictEqual(expect.arrayContaining(expected))
+		expect(actual).toStrictEqual(expect.arrayContaining(expected))
 	})
 })
