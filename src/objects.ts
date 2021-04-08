@@ -1,6 +1,10 @@
 
 class ObjectUtilityImpl {
 
+	isNullOrUndefined(data: any) {
+		return data === null || data === undefined
+	}
+
 
   pick<T, K extends keyof T>(data: T, keys: K[]): Pick<T, K> {
     return this.picker<T, K>(keys)(data)
