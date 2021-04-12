@@ -14,7 +14,8 @@ export class ErrorsImpl {
 		console.log(message)
 		return new ArgumentNullException()
 	}
-	InvalidOperation() {
+	InvalidOperation(message?: string) {
+		console.log(message)
 		return new InvalidOperationException()
 	}
 }

@@ -1,5 +1,6 @@
 
 
+
 type langs = 'zh-cn'
 
 
@@ -131,10 +132,10 @@ class DateTimeUtilityImpl {
 
 
 
-
 const locals = {
 
 	'zh-cn': {
+
 		abbampmdesignator: ['晨', '夕'],
 		ampmdesignator: ['上午', '下午'],
 
@@ -152,8 +153,8 @@ const locals = {
 		ad: '公元',
 
 		shortSpecifier: {
-			'd': 'yyyy/m/d',
-			'D': `yyyy${this}`
+			'd': 'yyyy/M/d',
+			'D': `yyyy年M月d日`
 		}
 	}
 }
@@ -187,6 +188,6 @@ export const DateTimes = new DateTimeUtilityImpl
 
 
 
-const date = new Date('2021-03-04 00:00:00')
-console.log(DateTimes.format(date, 'yyyy-MM-dd HH:mm:ss'))
-console.log(DateTimes.format(date, 'd'))
+// const date = new Date('2021-03-04 00:00:00')
+// console.log(DateTimes.format(date, 'yyyy-MM-dd HH:mm:ss'))
+// console.log(DateTimes.format(date, 'D'))
