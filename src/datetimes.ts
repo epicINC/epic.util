@@ -2,12 +2,63 @@
 
 type langs = 'zh-cn'
 
+
+
+type DateTimeResult = {
+	year: number
+	month: number
+	date?: number
+	hours?: number
+	minutes?: number
+	seconds?: number
+	milliseconds?: number
+}
+
+
+
+
 class DateTimeUtilityImpl {
 
 	ensure(data: string | Date) : Date {
 		if (typeof(data) !== 'string') return data
 		return new Date(data)
 	}
+
+	/**
+	 * 
+	 * @param s 
+	 * @param format 
+	 * @returns 
+	 * ref: https://referencesource.microsoft.com/#mscorlib/system/globalization/datetimeparse.cs,a6f76647667f9f16
+	 */
+	parseExact(s: string, format: string) : Date {
+		const result: DateTimeResult = {year: 0, month: 0}
+		if (!this.doStrictParse(s, format, result)) return new Date
+		return new Date
+	}
+
+	private doStrictParse(s: string, format: string, result: DateTimeResult) : boolean{
+	
+		const sDT = new DTString(s)
+		const formatDT = new DTString(format)
+		while(formatDT.next()) {
+			if (this.parseByFormat(sDT, formatDT, result)) return false
+		}
+		return true
+	}
+
+	private parseByFormat(s: DTString, format: DTString, result: DateTimeResult) : boolean {
+		let tokenLen: number
+		switch (format.count) {
+			case 'y':
+				tokenLen = format.repeatCount()
+				
+
+				break;
+		}
+
+	}
+
 
   format(data: string | Date, format: string, lan: langs = 'zh-cn') {
     const dt = this.ensure(data)
