@@ -1,4 +1,4 @@
-import { Errors } from './errors'
+import { Errors } from '../errors'
 
 export enum DayOfWeek {
 	/** 表示星期日 */

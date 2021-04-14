@@ -1,4 +1,4 @@
-class DTString {
+export class DTString {
 	constructor(v: string) {
 		this.index = -1
 		this.current = '\0'
@@ -33,11 +33,4 @@ class DTString {
 		this.index = offset - 1
 		return result
 	}
-}
-
-
-const dt = new DTString('yyyyMMd')
-
-while(dt.next()) {
-	console.log(dt.current, dt.repeatCount())
 }
